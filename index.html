@@ -92,7 +92,7 @@
                 document.getElementById("question-text").innerText = questions[currentQuestion].q;
                 let optionsHTML = "";
                 for (const [key, value] of Object.entries(questions[currentQuestion].options)) {
-                    optionsHTML += <button onclick='nextQuestion("${key}")'>${value}</button>;
+                    optionsHTML += `<button onclick='nextQuestion("${key}")'>${value}</button>`;
                 }
                 document.getElementById("options").innerHTML = optionsHTML;
             } else {
@@ -109,7 +109,7 @@
             let maxType = Object.keys(results).reduce((a, b) => results[a] > results[b] ? a : b);
             let motivation = "Мотивация: Жаңа мүмкіндіктерді пайдаланыңыз!";
             let quote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById("result").innerText = Сіздің нәтижеңіз: ${maxType}\n${motivation}\n${quote};
+            document.getElementById("result").innerText = `Сіздің нәтижеңіз: ${maxType}\n${motivation}\n${quote}`;
             document.getElementById("result").style.display = "block";
         }
         loadQuestion();
