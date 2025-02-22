@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Өзіңді таны</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .options button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Өзіңді таны</h1>
+        <p><strong>Жасаған:</strong> Ханабек Жұлдызай</p>
+        <div id="test">
+            <p class="question" id="question-text"></p>
+            <div class="options" id="options"></div>
+        </div>
+        <p id="result" class="result"></p>
+    </div>
+    <script>
+        const questions = [
+            { q: "Сіз жаңа ортаға қалай бейімделесіз?", options: {"Экстраверт": "Адамдармен тез араласамын", "Интроверт": "Алдымен бақылап, кейін сөйлесемін"} },
+            { q: "Қиын жағдайларда қалай әрекет етесіз?", options: {"Сабырлы": "Сабыр сақтаймын", "Эмоционалды": "Қатты уайымдаймын"} },
+            { q: "Шешім қабылдағанда неге сүйенесіз?", options: {"Логика": "Фактілер мен дәлелдер", "Интуиция": "Ішкі түйсігім"} },
+            { q: "Сіз үшін демалыстың ең жақсы түрі қандай?", options: {"Белсенді": "Спорт, саяхат", "Спокойный": "Кітап оқу, фильм көру"} },
+            { q: "Жаңа нәрселерді үйренуге қалай қарайсыз?", options: {"Қызығушылық": "Жаңа білім алуды ұнатамын", "Күдік": "Өзіме қажет нәрселерді ғана үйренемін"} },
+            { q: "Сіз уақытты қалай басқарасыз?", options: {"Жоспарлаушы": "Күнтізбе мен тізімдермен жұмыс істеймін", "Импульсивті": "Көңіл-күйге байланысты әрекет етемін"} },
+            { q: "Көпшіліктің ортасында өзіңізді қалай сезінесіз?", options: {"Қуатты": "Адамдармен араласу маған қуат береді", "Шаршаңқы": "Көпшілік мені шаршатады"} },
+            { q: "Қандай жұмыс түрі сізге жақынырақ?", options: {"Командалық": "Топта жұмыс істегенді ұнатамын", "Жеке": "Жалғыз жұмыс істегенді жөн көремін"} },
+            { q: "Қиын шешімдер қабылдағанда не істейсіз?", options: {"Аналитика": "Барлық нұсқаларды сараптаймын", "Сезім": "Ішкі дауысыма сенемін"} }
+        ];
+        let currentQuestion = 0;
+        let results = {};
+        const quotes = [
+            "\"Өзіңді тану – шынайы білімнің бастауы.\" – Сократ",
+            "\"Адам өз эмоциясын басқарған кезде ғана еркін болады.\" – Спиноза",
+            "\"Табысты болу үшін ең алдымен өзіңді түсіну керек.\" – Даниэль Големан"
+        ];
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById("question-text").innerText = questions[currentQuestion].q;
+                let optionsHTML = "";
+                for (const [key, value] of Object.entries(questions[currentQuestion].options)) {
+                    optionsHTML += <button onclick='nextQuestion("${key}")'>${value}</button>;
+                }
+                document.getElementById("options").innerHTML = optionsHTML;
+            } else {
+                showResult();
+            }
+        }
+        function nextQuestion(answer) {
+            results[answer] = (results[answer] || 0) + 1;
+            currentQuestion++;
+            loadQuestion();
+        }
+        function showResult() {
+            document.getElementById("test").style.display = "none";
+            let maxType = Object.keys(results).reduce((a, b) => results[a] > results[b] ? a : b);
+            let motivation = "Мотивация: Жаңа мүмкіндіктерді пайдаланыңыз!";
+            let quote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById("result").innerText = Сіздің нәтижеңіз: ${maxType}\n${motivation}\n${quote};
+            document.getElementById("result").style.display = "block";
+        }
+        loadQuestion();
+    </script>
+</body>
+</html>
